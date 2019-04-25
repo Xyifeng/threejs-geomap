@@ -173,6 +173,7 @@ export class Map {
         let edges = new THREE.EdgesGeometry(geometry)
         let line = new THREE.LineSegments(edges,new THREE.LineBasicMaterial({color: 0x000000}))
         mesh.add(line)
+        console.log(mesh)
         group.add(mesh)
       }
     }
