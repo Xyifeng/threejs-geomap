@@ -44,6 +44,7 @@ export class Map {
     this.scene.add(light)
     this.geoMap()
   }
+  // 渲染
   render () {
     this.renderer.render(this.scene, this.camera)
   }
