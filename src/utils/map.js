@@ -7,6 +7,7 @@ export class Map {
   constructor(container) {
     this.container = container
   }
+  // 初始化
   init() {
     this.scene = new THREE.Scene()
     this.camera = new THREE.PerspectiveCamera(45, this.container.clientWidth / this.container.clientHeight, 0.1, 10000)
