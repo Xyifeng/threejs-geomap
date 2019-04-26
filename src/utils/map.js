@@ -56,7 +56,6 @@ export class Map {
       mtlLoader.load("/static/obj/obj.mtl",(materials)=> {
         materials.preload()
         objLoader.setMaterials(materials)
-        console.log(materials)
         objLoader.load('/static/obj/obj.obj', (object) => {
           resolve(object)
         })
@@ -114,6 +113,7 @@ export class Map {
     for(let i in json.features){
       let obj = {
         name:json.features[i].properties.name,
+        cp:axisChange(json.features[i].properties.cp),
         data:[]
       }
       if(json.features[i].geometry.type === 'Polygon'){
@@ -149,7 +149,14 @@ export class Map {
     this.addMesh(data,this.lonCenter,this.latCenter)
   }
   // 创建地图区块
-  addMesh(data,lonCenter,latCenter) {
+  async addMesh(data,lonCenter,latCenter) {
+    const loader = new THREE.FontLoader()
+    // 字体自行更换 在线转换地址https://gero3.github.io/facetype.js/
+    const font = await new Promise((resolve, reject)=>{
+      loader.load('/static/font/font.json',(font)=>{
+        resolve(font)
+      })
+    })
     for(let i in data){
       let group = new THREE.Group()
       this.scene.add(group)
@@ -167,13 +174,25 @@ export class Map {
         }
         let shape = new THREE.Shape(pointArr)
         let geometry = new THREE.ExtrudeGeometry(shape,extrudeSettings)
+        geometry.computeBoundingSphere() // 计算中心
         let material = new THREE.MeshBasicMaterial( {color: 0x203A9A} )
         let mesh = new THREE.Mesh( geometry, material )
         // 添加边缘线
         let edges = new THREE.EdgesGeometry(geometry)
         let line = new THREE.LineSegments(edges,new THREE.LineBasicMaterial({color: 0x000000}))
         mesh.add(line)
-        console.log(mesh)
+        let fontGeometry = new THREE.TextGeometry(data[i].name, {
+          font: font,
+          size: 5,
+          height: 1,
+          bevelEnabled: false
+        })
+        let fontMaterial = new THREE.MeshBasicMaterial( { color: 0xffff00 } )
+        let fontMesh = new THREE.Mesh( fontGeometry, fontMaterial )
+        // 省份标示位置可自行校准 1.json中cp中心点定位偏差  2.文字坐标自身偏差
+        fontMesh.position.set((data[i].cp[0]-lonCenter)/10000,(data[i].cp[1]-latCenter)/10000,10)
+        group.add(fontMesh)
+
         group.add(mesh)
       }
     }
