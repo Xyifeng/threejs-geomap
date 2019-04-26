@@ -1,21 +1,8 @@
 # threedemo
 
-> A Vue.js project
+> three加载geojson简单示例
 
-## Build Setup
+## 后记
 
 ``` bash
-# install dependencies
-npm install
-
-# serve with hot reload at localhost:8080
-npm run dev
-
-# build for production with minification
-npm run build
-
-# build for production and view the bundle analyzer report
-npm run build --report
-```
-
-For a detailed explanation on how things work, check out the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
+自己查阅了几个start高的项目发现都不够简洁或 使用了D3+three导致最后呈现时会产生模糊（特别是边缘线）上述哪里有问题望指正
