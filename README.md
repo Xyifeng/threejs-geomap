@@ -1,6 +1,6 @@
 # threedemo
 
-> three加载geojson简单示例
+> vue内three加载geojson简单示例
 
 ## 后记
 
